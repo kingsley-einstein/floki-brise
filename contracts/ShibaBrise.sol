@@ -9,7 +9,7 @@ import "./interfaces/IPancakeRouter.sol";
 import "./interfaces/IPancakeFactory.sol";
 import "./helpers/TransferHelpers.sol";
 
-contract VefiEcosystemToken is Ownable, AccessControl, ERC20 {
+contract ShibaBrise is Ownable, AccessControl, ERC20 {
   using SafeMath for uint256;
 
   address public taxCollector;
@@ -20,9 +20,9 @@ contract VefiEcosystemToken is Ownable, AccessControl, ERC20 {
   IPancakeRouter02 pancakeRouter;
 
   uint8 public taxPercentage;
-  uint8 public liquidityPercentageForEcosystem = 8;
+  uint8 public liquidityPercentageForEcosystem = 10;
   uint256 public maxAmount = 700000000 * 10**18;
-  uint256 public minHoldOfTokenForContract = 120000 * 10**18;
+  uint256 public minHoldOfTokenForContract = 90000 * 10**18;
 
   bool public swapAndLiquifyEnabled;
   bool public inSwapAndLiquify;
@@ -45,7 +45,7 @@ contract VefiEcosystemToken is Ownable, AccessControl, ERC20 {
     _mint(_msgSender(), amount);
     _grantRole(taxExclusionPrivilege, _msgSender());
     _grantRole(taxExclusionPrivilege, _taxCollector);
-    pancakeRouter = IPancakeRouter02(0xE915D2393a08a00c5A463053edD31bAe2199b9e7);
+    pancakeRouter = IPancakeRouter02(0x83f465457c8caFbe85aBB941F20291F826C7F72A);
 
     address pair = IPancakeFactory(pancakeRouter.factory()).createPair(pancakeRouter.WETH(), address(this));
 
@@ -63,9 +63,9 @@ contract VefiEcosystemToken is Ownable, AccessControl, ERC20 {
     )
   {
     uint256 totalTaxValue = amount.mul(uint256(taxPercentage)).div(100);
-    forHolders = totalTaxValue.div(3);
+    forHolders = totalTaxValue.div(4);
     forPools = totalTaxValue.div(3);
-    forTaxCollector = totalTaxValue.div(3);
+    forTaxCollector = totalTaxValue.div(2);
   }
 
   function _swapAndLiquify(uint256 amount) private lockswap {
