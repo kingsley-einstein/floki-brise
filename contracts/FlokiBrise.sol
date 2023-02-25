@@ -9,7 +9,7 @@ import "./interfaces/IPancakeRouter.sol";
 import "./interfaces/IPancakeFactory.sol";
 import "./helpers/TransferHelpers.sol";
 
-contract ShibaBrise is Ownable, AccessControl, ERC20 {
+contract FlokiBrise is Ownable, AccessControl, ERC20 {
   using SafeMath for uint256;
 
   address public taxCollector;
@@ -22,7 +22,7 @@ contract ShibaBrise is Ownable, AccessControl, ERC20 {
   uint8 public taxPercentage;
   uint8 public liquidityPercentageForEcosystem = 10;
   uint256 public maxAmount = 700000000 * 10**18;
-  uint256 public minHoldOfTokenForContract = 90000 * 10**18;
+  uint256 public minHoldOfTokenForContract = 1000000 * 10**18;
 
   bool public swapAndLiquifyEnabled;
   bool public inSwapAndLiquify;
@@ -63,9 +63,9 @@ contract ShibaBrise is Ownable, AccessControl, ERC20 {
     )
   {
     uint256 totalTaxValue = amount.mul(uint256(taxPercentage)).div(100);
-    forHolders = totalTaxValue.div(4);
+    forHolders = totalTaxValue.div(3);
     forPools = totalTaxValue.div(3);
-    forTaxCollector = totalTaxValue.div(2);
+    forTaxCollector = totalTaxValue.div(3);
   }
 
   function _swapAndLiquify(uint256 amount) private lockswap {
